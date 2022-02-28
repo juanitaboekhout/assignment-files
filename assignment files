@@ -7,12 +7,15 @@ import os
 from zipfile import ZipFile 
 import shutil
 
-             
+
 def clean_cache():
-    cwd = os.getcwd() 
     if os.path.exists("cache"):
         shutil.rmtree("cache")                      
-        os.mkdir("cache")                  
+        os.mkdir("cache")     
+    else:
+        os.mkdir('cache')
+clean_cache() 
+ 
 
 
 def cache_zip(zip_file_path, cache_dir_path):
@@ -25,15 +28,27 @@ def cached_files():
     absoluut = os.path.abspath("./cache")                  
     cached_files = []                           
     for file in os.listdir(absoluut):               
-            cached_files.append (absoluut + '/' + file)           
+        cached_files.append (absoluut + '\\' + file)           
     return cached_files                      
+cached_files()
+
 
 
 def find_password(cached_files):
-    for x in cached_files:
-        check_pasw = open(x, 'r')
-        file = check_pasw.read()
-        for x in file:
-            if 'password' in file:
-             return True 
-print(find_password(cached_files))
+    for file in cached_files:
+        check_pasw = open(file, 'r')
+        lines = check_pasw.readlines()
+        for line in lines:
+            if 'password' in line:
+                return line.split()[1] 
+                             
+
+
+
+
+
+
+
+
+
+
